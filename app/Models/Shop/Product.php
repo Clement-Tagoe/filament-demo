@@ -10,9 +10,12 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\MediaLibrary\HasMedia;
 
-class Product extends Model
+class Product extends Model implements HasMedia
 {
+    protected $guarded = [];
+
     /** @use HasFactory<ProductFactory> */
     use HasFactory;
 

@@ -21,6 +21,8 @@ class Category extends Model
      */
     protected $table = 'shop_categories';
 
+    protected $guarded = [];
+
     /**
      * @var array<string, string>
      */

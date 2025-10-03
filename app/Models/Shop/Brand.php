@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Brand extends Model
 {
+    protected $guarded = [];
+    
     /** @use HasFactory<BrandFactory> */
     use HasFactory;
 

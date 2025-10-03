@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Filament\Clusters\Products\Resources\Categories\RelationManagers;
+
+use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use Filament\Actions\EditAction;
+use Filament\Actions\CreateAction;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\AssociateAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\DissociateAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Actions\DissociateBulkAction;
+use Filament\Resources\RelationManagers\RelationManager;
+use App\Filament\Clusters\Products\Resources\Products\ProductResource;
+
+class ProductsRelationManager extends RelationManager
+{
+    protected static string $relationship = 'products';
+
+    protected static ?string $recordTitleAttribute = 'name';
+
+    public function form(Schema $schema): Schema
+    {
+        return ProductResource::form($schema);
+    }
+
+    public function table(Table $table): Table
+    {
+        return ProductResource::table($table)
+            ->headerActions([
+                CreateAction::make(),
+            ])
+            ->recordActions([
+                DeleteAction::make(),
+            ])
+            ->groupedBulkActions([
+                DeleteBulkAction::make(),
+            ]);
+    }
+}

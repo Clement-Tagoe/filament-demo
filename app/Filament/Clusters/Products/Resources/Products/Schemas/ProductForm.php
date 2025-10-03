@@ -5,10 +5,13 @@ namespace App\Filament\Clusters\Products\Resources\Products\Schemas;
 use Illuminate\Support\Str;
 use App\Models\Shop\Product;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Group;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\RichEditor;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -19,7 +22,7 @@ class ProductForm
     {
         return $schema
             ->components([
-                     Group::make()
+                    Group::make()
                         ->schema([
                             Section::make()
                                 ->schema([
@@ -119,6 +122,37 @@ class ProductForm
                                 ->columns(2),
                         ])
                         ->columnSpan(['lg' => 2]),
-            ]);
+
+                        Group::make()
+                            ->schema([
+                                Section::make('Status')
+                                    ->schema([
+                                        Toggle::make('is_visible')
+                                            ->label('Visibility')
+                                            ->helperText('This product will be hidden from all sales channels.')
+                                            ->default(true),
+
+                                        DatePicker::make('published_at')
+                                            ->label('Publishing date')
+                                            ->default(now())
+                                            ->required(),
+                                    ]),
+
+                                Section::make('Associations')
+                                    ->schema([
+                                        Select::make('shop_brand_id')
+                                            ->relationship('brand', 'name')
+                                            ->searchable(),
+                                            // ->hiddenOn(ProductsRelationManager::class),
+
+                                        Select::make('categories')
+                                            ->relationship('categories', 'name')
+                                            ->multiple()
+                                            ->required(),
+                                    ]),
+                            ])
+                            ->columnSpan(['lg' => 1]),
+        ])
+        ->columns(3);
     }
 }
